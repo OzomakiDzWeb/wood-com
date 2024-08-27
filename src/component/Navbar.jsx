@@ -1,21 +1,44 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaHeart } from "react-icons/fa6";
 import { FaShoppingCart } from "react-icons/fa";
 import { IoMdMenu } from "react-icons/io";
 import { IoMdClose } from "react-icons/io";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 const Links = [
-  { id: 1, name: "HOME", link: "/" },
-  { id: 2, name: "features", link: "/features" },
-  { id: 3, name: "shop", link: "/shop" },
-  { id: 4, name: "blog", link: "/blog" },
-  { id: 5, name: "contact", link: "/contact" },
+  { id: 1, name: "HOME", link: "" },
+  { id: 2, name: "features", link: "features" },
+  { id: 3, name: "shop", link: "shop" },
+  { id: 4, name: "blog", link: "blog" },
+  { id: 5, name: "contact", link: "contact" },
 ];
 const Navbar = () => {
-  const [actiMobil, setactvMobil] = useState(true);
+  const [actiMobil, setactvMobil] = useState(false);
+  const [scroll,setscroll]=useState(true)
+  useEffect(() => {
+  const handelScroll=()=>{
+     if (window.scrollY > 100) {
+       console.log(window.scrollY);
+       setscroll(true);
+     } else {
+       console.log(window.scrollY);
+       setscroll(false);
+     }
+  }
+  window.addEventListener("scroll",handelScroll)
+  return () => {
+    window.addEventListener("scroll", handelScroll);
+  }; 
+    
+
+  }, [scroll]);
   return (
-    <div>
-      <div className="flex justify-between items-center px-5 py-5 bg-permry  shadow-lg shadow-therd">
+    <div className=" sticky top-0 left-0 z-20 w-full ">
+      <div
+        className={`flex justify-between items-center px-5 py-5 transition-all duration-300 ${
+          scroll ? "bg-white " : "shadow-lg bg-permry  shadow-therd"
+        }   `}
+      >
         {/* logo */}
         <div className="font-bold text-xl sm:text-2xl">
           <span>WOOD</span>
@@ -25,29 +48,35 @@ const Navbar = () => {
         <div className="hidden md:flex list-none uppercase gap-4 font-semibold">
           {Links.map((itm) => (
             <li className="font-bold text-secondary" key={itm.id}>
-              <a
+              <Link
                 className="cursor-pointer hover:text-therd transition-all duration-300"
-                href={itm.href}
+                to={itm.link}
               >
                 {itm.name}
-              </a>
+              </Link>
             </li>
           ))}
         </div>
         {/* cart */}
-        <div className="hidden md:flex gap-2">
-          <div className="relative cursor-pointer hover:scale-110 transition-all duration-300">
+        <div className=" flex   gap-2">
+          <Link
+            to="cartshop"
+            className="relative cursor-pointer hover:scale-110 transition-all duration-300"
+          >
             <FaHeart className="text-secondary" size={30} />
             <span className="bg-therd rounded-full w-4 h-4 flex items-center justify-center font-bold  p-2 absolute -top-1  right-0">
               1
             </span>
-          </div>
-          <div className="relative cursor-pointer hover:scale-110 transition-all duration-300">
+          </Link>
+          <Link
+            to="favoritlist"
+            className="relative cursor-pointer hover:scale-110 transition-all duration-300"
+          >
             <FaShoppingCart className="text-secondary" size={30} />
             <span className="bg-therd rounded-full w-4 h-4 flex items-center justify-center font-bold  p-2 absolute -top-1  right-0">
               1
             </span>
-          </div>
+          </Link>
         </div>
         {/* menu icon */}
         <div className="md:hidden cursor-pointer hover:scale-110 transition-all duration-300">
@@ -74,12 +103,12 @@ const Navbar = () => {
       >
         {Links.map((itm) => (
           <li className="font-bold text-secondary" key={itm.id}>
-            <a
+            <Link
               className="cursor-pointer hover:text-therd transition-all duration-300"
-              href={itm.href}
+              to={itm.link}
             >
               {itm.name}
-            </a>
+            </Link>
           </li>
         ))}
       </motion.div>
