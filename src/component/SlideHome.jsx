@@ -13,7 +13,7 @@ const SlideHome = () => {
   return (
     <Slider {...settings}>
       {slidHomeImg.map((img) => (
-        <div className="h-[calc(100vh-120px)] w-screen overflow-y-hidden" key={img.id}>
+        <div className=" w-screen overflow-y-hidden" key={img.id}>
           <img src={img.img} alt="" />
         </div>
       ))}
